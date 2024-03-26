@@ -10,7 +10,7 @@ const Signup = () => {
 
   const handleSignup: SubmitHandler<FormValue> = async (data) => {
     try {
-      await signup(data.email, data.password);
+      await signup(data.email, data.password, data.adminRole);
       navigate('/dashboard');
     } catch (e) {
       alert(e);
@@ -22,6 +22,7 @@ const Signup = () => {
       <form onSubmit={handleSubmit(handleSignup)}>
         <input className="border-2 border-red-100" {...register('email')} />
         <input className="border-2 border-red-100" {...register('password')} />
+        <input type="checkbox" {...register('adminRole')} />
         <input type="submit" className="block bg-red-500 p-2 text-white" title="Sign Up" />
       </form>
       <Link to="/">Already have an account?</Link>
