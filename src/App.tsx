@@ -4,19 +4,25 @@ import { Dashboard } from 'src/pages/Dashboard';
 import { Login } from 'src/pages/Login';
 import { AuthProvider } from 'src/providers/authProvider';
 import { Route, Routes } from 'react-router-dom';
-import { Signup } from './pages/Signup';
+import { Signup } from 'src/pages/Signup';
+import { store } from 'src/stores/stores';
+import { Provider } from 'react-redux';
+import { Profile } from 'src/pages/Profile';
 
 const App = () => {
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/chat" element={<Chat />} />
-        </Route>
-      </Routes>
+      <Provider store={store}>
+        <Routes>
+          <Route path="" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Provider>
     </AuthProvider>
   );
 };
