@@ -8,6 +8,7 @@ import { Signup } from 'src/pages/Signup';
 import { store } from 'src/stores/stores';
 import { Provider } from 'react-redux';
 import { Profile } from 'src/pages/Profile';
+import { Challenges } from 'src/pages/Challenges';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/challenges" element={<Challenges />} />
           </Route>
         </Routes>
       </Provider>
