@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { auth, db } from 'src/services/firebase';
-import { progressSelector, setData } from 'src/stores/progress/progressSlice';
+import { progressSelector, setData, setDates } from 'src/stores/progress/progressSlice';
 import { useAppDispatch } from 'src/stores/stores';
 
 export const useDBRecords = () => {
@@ -18,6 +18,7 @@ export const useDBRecords = () => {
 
     if (data) {
       dispatch(setData(data));
+      dispatch(setDates(Object.keys(data)));
     } else {
       await setDoc(doc(db, 'users', auth.currentUser.uid), {});
       dispatch(setData({}));

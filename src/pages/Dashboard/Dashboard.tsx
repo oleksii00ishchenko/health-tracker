@@ -4,7 +4,7 @@ import { progressSelector } from 'src/stores/progress/progressSlice';
 import { UploadModal } from './UploadModal';
 import { useDBRecords } from 'src/hooks/useDBRecords';
 import { BodyCompositionTable } from './BodyCompositionTable';
-import { BodyParamsTable } from './BodyParamsTable/BodyParamsTable';
+import { BodyParamsTable } from './BodyParamsTable';
 import { isEmpty } from 'lodash';
 
 const Dashboard = () => {

@@ -6,7 +6,7 @@ import { createProgressTemplate } from './helpers';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from 'src/services/firebase';
 import { useAppDispatch } from 'src/stores/stores';
-import { setData } from 'src/stores/progress/progressSlice';
+import { setData, setDates } from 'src/stores/progress/progressSlice';
 import { isEmpty } from 'lodash';
 import { Input } from './Input';
 import { paramsFields, compositionFields } from '../types';
@@ -37,6 +37,7 @@ const UploadModal: FC<{ open: boolean; closeModal: () => void }> = ({ open, clos
 
     await updateDoc(doc(db, 'users', auth.currentUser.uid), progress);
     dispatch(setData(progress));
+    dispatch(setDates([data.date]));
     reset();
 
     handleClose();
