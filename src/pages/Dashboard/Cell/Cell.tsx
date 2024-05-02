@@ -1,7 +1,8 @@
 import { isEmpty } from 'lodash';
-import { FC, useState } from 'react';
+import { useState } from 'react';
+import { CellProps } from './types';
 
-const Cell: FC<{ value: string; isDate: boolean; onBlur: (value: string) => void }> = ({ value, isDate, onBlur }) => {
+const Cell = ({ value, isDate, onBlur }: CellProps) => {
   const [inputValue, setInputValue] = useState(() => value);
 
   if (isDate) {
@@ -9,12 +10,13 @@ const Cell: FC<{ value: string; isDate: boolean; onBlur: (value: string) => void
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = isEmpty(e.target.value) ? '0' : e.target.value;
-    setInputValue(value);
+    setInputValue(e.target.value);
   };
 
-  const handleBlur = () => {
-    onBlur(inputValue);
+  const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = isEmpty(e.target.value) || e.target.value < '0' ? '0' : e.target.value;
+    setInputValue(value);
+    onBlur(value);
   };
 
   return (

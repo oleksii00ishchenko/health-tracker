@@ -3,12 +3,11 @@ import { progressSelector, setData } from 'src/stores/progress/progressSlice';
 import { Cell } from '../Cell';
 import { formatDate } from './helpers';
 import { RowProps } from './types';
-import { FC } from 'react';
 import { useAppDispatch } from 'src/stores/stores';
 import { compareAsc } from 'date-fns';
 import { FireStoreService } from 'src/services/firebase';
 
-const Row: FC<RowProps> = ({ rowName, table }) => {
+const Row = ({ rowName, table }: RowProps) => {
   const progress = useSelector(progressSelector);
   const dispatch = useAppDispatch();
 

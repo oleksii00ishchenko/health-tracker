@@ -1,8 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 import { InputProps } from './types';
-import { FC } from 'react';
 
-const Input: FC<InputProps> = ({ name, label }) => {
+const Input = ({ name, label }: InputProps) => {
   const { register } = useFormContext();
   return (
     <div key={name} className="flex py-[1px]">

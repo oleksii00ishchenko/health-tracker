@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
-import { UploadFormVlaue } from './types';
+import { UploadFormVlaue, UploadModalPropds } from './types';
 import { createProgressTemplate } from './helpers';
 import { FireStoreService } from 'src/services/firebase';
 import { useAppDispatch } from 'src/stores/stores';
@@ -12,7 +11,7 @@ import { paramsFields, compositionFields } from '../types';
 
 Modal.setAppElement('#root');
 
-const UploadModal: FC<{ open: boolean; closeModal: () => void }> = ({ open, closeModal }) => {
+const UploadModal = ({ open, closeModal }: UploadModalPropds) => {
   const methods = useForm<UploadFormVlaue>({ mode: 'onSubmit' });
 
   const {

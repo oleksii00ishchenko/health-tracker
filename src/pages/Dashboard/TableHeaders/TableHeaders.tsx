@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import { TableHeadersProps } from './types';
 
-const TableHeaders: FC<TableHeadersProps> = ({ fields }) => {
+const TableHeaders = ({ fields }: TableHeadersProps) => {
   return (
     <table cellPadding={10} align="left" width={150}>
       <thead>
