@@ -3,10 +3,9 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { UploadFormVlaue } from './types';
 import { createProgressTemplate } from './helpers';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db, auth } from 'src/services/firebase';
+import { FireStoreService } from 'src/services/firebase';
 import { useAppDispatch } from 'src/stores/stores';
-import { setData, setDates } from 'src/stores/progress/progressSlice';
+import { setData } from 'src/stores/progress/progressSlice';
 import { isEmpty } from 'lodash';
 import { Input } from './Input';
 import { paramsFields, compositionFields } from '../types';
@@ -31,14 +30,10 @@ const UploadModal: FC<{ open: boolean; closeModal: () => void }> = ({ open, clos
   };
 
   const handleUpload: SubmitHandler<UploadFormVlaue> = async (data) => {
-    if (!auth.currentUser) return;
-
     const progress = createProgressTemplate(data);
 
-    await updateDoc(doc(db, 'users', auth.currentUser.uid), progress);
+    await FireStoreService.addProgress(progress);
     dispatch(setData(progress));
-    dispatch(setDates([data.date]));
-    reset();
 
     handleClose();
   };

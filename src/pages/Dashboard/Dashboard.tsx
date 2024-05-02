@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { progressSelector } from 'src/stores/progress/progressSlice';
+import { isLoadingSelector, progressSelector } from 'src/stores/progress/progressSlice';
 import { UploadModal } from './UploadModal';
 import { useDBRecords } from 'src/hooks/useDBRecords';
 import { BodyCompositionTable } from './BodyCompositionTable';
@@ -15,6 +15,7 @@ const Dashboard = () => {
   useDBRecords();
 
   const progress = useSelector(progressSelector);
+  const isLoading = useSelector(isLoadingSelector);
 
   return (
     <div className="w-full overflow-scroll rounded-tl-lg bg-gray-100">
@@ -23,8 +24,10 @@ const Dashboard = () => {
         <button onClick={openModal}>Upload progress</button>
       </header>
 
-      {isEmpty(progress) ? (
-        <p>Empty</p>
+      {isLoading ? (
+        <p>.....Loading</p>
+      ) : isEmpty(progress) ? (
+        <p>Add progress</p>
       ) : (
         <>
           <BodyParamsTable />

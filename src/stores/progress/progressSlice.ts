@@ -1,13 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { compareAsc } from 'date-fns';
+import { DocumentData } from 'firebase/firestore';
+import { isEmpty } from 'lodash';
 import { Progress } from 'src/models/progress';
+import { FireStoreService } from 'src/services/firebase';
 import { RootState } from 'src/stores/stores';
 
-const initialState: { progress: Progress; dates: string[] } = {
+const initialState: { progress: Progress; isLoading: boolean } = {
   progress: {},
-  dates: [],
+  isLoading: false,
 };
+
+export const fetchUserProgress = createAsyncThunk('progress/fetchUserProgress', async () => {
+  try {
+    let progress: DocumentData = {};
+
+    const progressDb = await FireStoreService.getUserData();
+
+    if (isEmpty(progressDb)) {
+      //create document for new user
+      await FireStoreService.setProgress(progress);
+    } else {
+      progress = { ...progressDb };
+    }
+
+    return progress;
+  } catch (error) {
+    return error;
+  }
+});
 
 export const progressSlice = createSlice({
   name: 'progress',
@@ -16,15 +37,25 @@ export const progressSlice = createSlice({
     setData: (state, action: PayloadAction<Progress>) => {
       state.progress = { ...state.progress, ...action.payload };
     },
-    setDates: (state, action: PayloadAction<string[]>) => {
-      state.dates = [...state.dates, ...action.payload].sort((a, b) => compareAsc(a, b));
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUserProgress.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUserProgress.fulfilled, (state, action) => {
+        state.progress = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchUserProgress.rejected, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 
 export const progressSelector = (state: RootState) => state.rootReducer.progress.progress;
-export const datesSelector = (state: RootState) => state.rootReducer.progress.dates;
+export const isLoadingSelector = (state: RootState) => state.rootReducer.progress.isLoading;
 
-export const { setData, setDates } = progressSlice.actions;
+export const { setData } = progressSlice.actions;
 
 export default progressSlice.reducer;
