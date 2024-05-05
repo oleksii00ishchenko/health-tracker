@@ -5,13 +5,15 @@ import { isEmpty } from 'lodash';
 import { Progress } from 'src/models/progress';
 import { FireStoreService } from 'src/services/firebase';
 import { RootState } from 'src/stores/stores';
+import { setDates, setFilterDates } from '../filter/filterSlice';
+import { compareAsc } from 'date-fns';
 
 const initialState: { progress: Progress; isLoading: boolean } = {
   progress: {},
   isLoading: false,
 };
 
-export const fetchUserProgress = createAsyncThunk('progress/fetchUserProgress', async () => {
+export const fetchUserProgress = createAsyncThunk('progress/fetchUserProgress', async (_, thunkAPI) => {
   try {
     let progress: DocumentData = {};
 
@@ -23,6 +25,11 @@ export const fetchUserProgress = createAsyncThunk('progress/fetchUserProgress', 
     } else {
       progress = { ...progressDb };
     }
+
+    const progressDates = Object.keys(progress).sort((a, b) => compareAsc(a, b));
+
+    thunkAPI.dispatch(setDates(progressDates));
+    thunkAPI.dispatch(setFilterDates(progressDates));
 
     return progress;
   } catch (error) {

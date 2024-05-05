@@ -1,10 +1,11 @@
-// eslint-disable-next-line import/named
 import { Action, Reducer, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import progressReducer from 'src/stores/progress/progressSlice';
+import filterReducer from 'src/stores/filter/filterSlice';
 
 const combinedReducer = combineReducers({
   progress: progressReducer,
+  filter: filterReducer,
 });
 
 type State = ReturnType<typeof combinedReducer>;

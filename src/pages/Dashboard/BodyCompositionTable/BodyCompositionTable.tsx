@@ -4,7 +4,7 @@ import { Row } from '../Row';
 
 const BodyCompositionTable = () => {
   return (
-    <div className="p-5">
+    <div className="mb-5">
       <TableHeaders fields={compositionFields} />
       <div className="max-w-[675px] overflow-y-scroll">
         <table cellPadding={10}>
